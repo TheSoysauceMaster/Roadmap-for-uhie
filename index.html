@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UhieJTP Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5deb3 0%, #d2b48c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .auth-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .auth-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .login-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .sync-status {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sync-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .year-section {
+            margin-bottom: 50px;
+        }
+
+        .year-header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            font-size: 2em;
+            font-weight: bold;
+            color: #000000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .quarters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quarter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .quarter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .quarter-card.completed {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 3px solid #28a745;
+        }
+
+        .quarter-card.completed .quarter-title {
+            color: #28a745;
+        }
+
+        .milestone-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+
+        .milestone-content {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .quarter-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #000000;
+        }
+
+        .milestone {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .milestone:hover {
+            background: #eef0ff;
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 12px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .milestone-text {
+            flex: 1;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .milestone-name {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .milestone-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .quarters-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ UhieJTP Roadmap</h1>
+        
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="login()">🔐 Login</button>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <div class="sync-status">
+            <div class="sync-indicator"></div>
+            <span>Read-only mode - Login to edit</span>
+        </div>
+
+        <!-- 2026 Section -->
+        <div class="year-section">
+            <div class="year-header">2026 - Journey Towards Progress</div>
+            <div class="quarters-container">
+                <div class="quarter-card">
+                    <div class="quarter-title">Q1</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q1-2026-vendor">
+                        <div class="milestone-content">
+                            <div class="icon">🤝</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Vendor Partnerships</div>
+                                <div class="milestone-description">Begin signing current & new vendors</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q1-2026-ai">
+                        <div class="milestone-content">
+                            <div class="icon">🤖</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">AI Integration</div>
+                                <div class="milestone-description">Integrate AI for layout so vendors can easily automate their description for products making it faster for them to list multiple products at once</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q1-2026-armanda">
+                        <div class="milestone-content">
+                            <div class="icon">🚚</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Armanda Delivery Integration</div>
+                                <div class="milestone-description">Integration with third party delivery service with Armanda for on demand delivery and bulk order delivery (schedule)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q1-2026-payment">
+                        <div class="milestone-content">
+                            <div class="icon">💳</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Payment Processor Integration</div>
+                                <div class="milestone-description">Integrate with payment processor</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q2</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2026-vendor">
+                        <div class="milestone-content">
+                            <div class="icon">🤝</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Complete Vendor Signups</div>
+                                <div class="milestone-description">Finalize all vendor partnerships</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2026-affiliate-program">
+                        <div class="milestone-content">
+                            <div class="icon">💼</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Affiliate Program</div>
+                                <div class="milestone-description">Create and launch affiliate system</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2026-affiliate-recruit">
+                        <div class="milestone-content">
+                            <div class="icon">🔗</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Affiliate Recruitment</div>
+                                <div class="milestone-description">Begin signing up affiliates</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2026-testing">
+                        <div class="milestone-content">
+                            <div class="icon">🧪</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Application Testing & Bug Fixes</div>
+                                <div class="milestone-description">Run tests on the application, make sure bugs are fixed and everything works from integrations to operations, ensure everything runs smooth</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q3</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-launch">
+                        <div class="milestone-content">
+                            <div class="icon">🚀</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Launch UhieJTP</div>
+                                <div class="milestone-description">Official platform launch</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-vendor">
+                        <div class="milestone-content">
+                            <div class="icon">🤝</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Complete Vendor Signups</div>
+                                <div class="milestone-description">Finalize all vendor partnerships</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-affiliate">
+                        <div class="milestone-content">
+                            <div class="icon">✅</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Complete Affiliate Signups</div>
+                                <div class="milestone-description">Finalize all affiliate partnerships</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-paperwork">
+                        <div class="milestone-content">
+                            <div class="icon">📄</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Renew Paperwork</div>
+                                <div class="milestone-description">Renew paperwork for UhieJTP</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-bank">
+                        <div class="milestone-content">
+                            <div class="icon">🏦</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Business Bank Account</div>
+                                <div class="milestone-description">Open a business bank account</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-office">
+                        <div class="milestone-content">
+                            <div class="icon">🏢</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Rent Office</div>
+                                <div class="milestone-description">Rent an office</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-seo">
+                        <div class="milestone-content">
+                            <div class="icon">🔍</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Start SEO</div>
+                                <div class="milestone-description">Start SEO to rank up higher in Google</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-marketing">
+                        <div class="milestone-content">
+                            <div class="icon">📱</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Digital Marketing</div>
+                                <div class="milestone-description">Monthly ads on YouTube, Meta, TikTok & Google</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2026-influencer">
+                        <div class="milestone-content">
+                            <div class="icon">⭐</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Influencer Partnerships</div>
+                                <div class="milestone-description">Partner with influencers for brand awareness</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q4</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-operations">
+                        <div class="milestone-content">
+                            <div class="icon">⚙️</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Smooth Operations</div>
+                                <div class="milestone-description">Maintain a smooth operating business</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-events">
+                        <div class="milestone-content">
+                            <div class="icon">🎪</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Attend Events</div>
+                                <div class="milestone-description">Attend events for more brand awareness</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-ads">
+                        <div class="milestone-content">
+                            <div class="icon">📢</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continue Marketing Campaigns</div>
+                                <div class="milestone-description">Continue running ads and partnerships to maintain and increase growth</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-affiliates">
+                        <div class="milestone-content">
+                            <div class="icon">🔗</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continue Affiliate Recruitment</div>
+                                <div class="milestone-description">Continue to recruit new affiliates to maintain and increase growth</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-vendors">
+                        <div class="milestone-content">
+                            <div class="icon">🏪</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continue Vendor Listings</div>
+                                <div class="milestone-description">Continue to list new vendors</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-services">
+                        <div class="milestone-content">
+                            <div class="icon">🛠️</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Service Companies Signup</div>
+                                <div class="milestone-description">Get service companies to sign up and provide their services</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-social">
+                        <div class="milestone-content">
+                            <div class="icon">👥</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Social Media Growth</div>
+                                <div class="milestone-description">Gain 10,000 new followers across platforms</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2026-content">
+                        <div class="milestone-content">
+                            <div class="icon">✍️</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Content Milestone</div>
+                                <div class="milestone-description">Reach 100 posts on all social media</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2027 Section -->
+        <div class="year-section">
+            <div class="year-header">2027 - Journey Towards Progress</div>
+            <div class="quarters-container">
+                <div class="quarter-card">
+                    <div class="quarter-title">Q1</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q1-2027-growth">
+                        <div class="milestone-content">
+                            <div class="icon">📈</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Growth Targets</div>
+                                <div class="milestone-description">3x affiliates & 10x vendors from 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q2</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2027-delivery">
+                        <div class="milestone-content">
+                            <div class="icon">🚚</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Flexible Delivery</div>
+                                <div class="milestone-description">Implement more delivery options</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q2-2027-growth">
+                        <div class="milestone-content">
+                            <div class="icon">📈</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continued Growth</div>
+                                <div class="milestone-description">3x affiliates & 10x vendors ongoing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q3</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2027-budget">
+                        <div class="milestone-content">
+                            <div class="icon">💰</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Marketing Budget Increase</div>
+                                <div class="milestone-description">Expand advertising investment</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2027-algorithm">
+                        <div class="milestone-content">
+                            <div class="icon">🎯</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Algorithmic Recommendations</div>
+                                <div class="milestone-description">Add algorithmic notifications and product recommendations based on consumer taste</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q3-2027-growth">
+                        <div class="milestone-content">
+                            <div class="icon">📈</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continued Growth</div>
+                                <div class="milestone-description">3x affiliates & 10x vendors ongoing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarter-card">
+                    <div class="quarter-title">Q4</div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-subscription">
+                        <div class="milestone-content">
+                            <div class="icon">🔔</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Subscription Service</div>
+                                <div class="milestone-description">Launch delivery & deals subscription</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-pobox">
+                        <div class="milestone-content">
+                            <div class="icon">🎁</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Free P.O. Box</div>
+                                <div class="milestone-description">Annual subscription bonus feature</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-fbu">
+                        <div class="milestone-content">
+                            <div class="icon">🏭</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">FBU Launch</div>
+                                <div class="milestone-description">"Fulfillment by Uhie" + warehouse rental</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-multi-vendor">
+                        <div class="milestone-content">
+                            <div class="icon">🛒</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Multi-Vendor Basket</div>
+                                <div class="milestone-description">Multiple vendors in one basket option available on all products fulfilled by UhieJTP warehouse</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-growth">
+                        <div class="milestone-content">
+                            <div class="icon">📈</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Continued Growth</div>
+                                <div class="milestone-description">3x affiliates & 10x vendors ongoing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-ai-support">
+                        <div class="milestone-content">
+                            <div class="icon">🤖</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">24/7 AI Chat Support</div>
+                                <div class="milestone-description">Implement 24/7 AI chat support that handles refunds, cancel orders, update on orders, cancel subscription, renew subscription, answer FAQ's</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-followers">
+                        <div class="milestone-content">
+                            <div class="icon">👥</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Social Media Milestone</div>
+                                <div class="milestone-description">Reach 30,000 followers across all platforms</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <input type="checkbox" class="milestone-checkbox" id="q4-2027-posts">
+                        <div class="milestone-content">
+                            <div class="icon">✍️</div>
+                            <div class="milestone-text">
+                                <div class="milestone-name">Content Growth</div>
+                                <div class="milestone-description">Reach 250 new posts on all social media</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBTYnNFBG7pJzzgRmYOZqNnR2SQkioNzE",
+            authDomain: "uhiejtproadmap.firebaseapp.com",
+            databaseURL: "https://uhiejtproadmap-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "uhiejtproadmap",
+            storageBucket: "uhiejtproadmap.firebasestorage.app",
+            messagingSenderId: "985522171082",
+            appId: "1:985522171082:web:415aa28b197967d4121833"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        const progressRef = ref(database, 'roadmap-progress');
+
+        let isAuthenticated = false;
+
+        // Check authentication status
+        onAuthStateChanged(auth, (user) => {
+            isAuthenticated = !!user;
+            updateAuthUI(user);
+        });
+
+        // Update UI based on auth status
+        function updateAuthUI(user) {
+            const statusDiv = document.querySelector('.sync-status span');
+            if (user) {
+                statusDiv.textContent = `✅ Logged in as ${user.email} - Can edit`;
+            } else {
+                statusDiv.textContent = '👀 Read-only mode - Login to edit';
+            }
+        }
+
+        // Listen for changes from database
+        onValue(progressRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox && checkbox.checked !== data[id]) {
+                        checkbox.checked = data[id];
+                        const quarterCard = checkbox.closest('.quarter-card');
+                        checkQuarterCompletion(quarterCard);
+                    }
+                });
+            }
+        });
+
+        // Update database when checkbox changes (only if authenticated)
+        document.querySelectorAll('.milestone-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                if (!isAuthenticated) {
+                    e.preventDefault();
+                    this.checked = !this.checked; // Revert the change
+                    showLoginPrompt();
+                    return;
+                }
+
+                const quarterCard = this.closest('.quarter-card');
+                checkQuarterCompletion(quarterCard);
+                
+                // Update Firebase
+                const updates = {};
+                document.querySelectorAll('.milestone-checkbox').forEach(cb => {
+                    updates[cb.id] = cb.checked;
+                });
+                set(progressRef, updates).catch(error => {
+                    console.error('Error updating:', error);
+                    alert('Failed to update. Please try logging in again.');
+                });
+            });
+        });
+
+        function checkQuarterCompletion(quarterCard) {
+            const checkboxes = quarterCard.querySelectorAll('.milestone-checkbox');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            if (allChecked && checkboxes.length > 0) {
+                quarterCard.classList.add('completed');
+            } else {
+                quarterCard.classList.remove('completed');
+            }
+        }
+
+        function showLoginPrompt() {
+            const email = prompt('Enter your email to edit:');
+            if (!email) return;
+            
+            const password = prompt('Enter your password:');
+            if (!password) return;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    alert('✅ Logged in successfully! You can now edit.');
+                })
+                .catch((error) => {
+                    alert('❌ Login failed: ' + error.message);
+                });
+        }
+
+        // Login/Logout functions
+        window.login = function() {
+            showLoginPrompt();
+        };
+
+        window.logout = function() {
+            signOut(auth).then(() => {
+                alert('✅ Logged out successfully');
+            }).catch((error) => {
+                alert('Error logging out: ' + error.message);
+            });
+        };
+    </script>
+</body>
+</html>
